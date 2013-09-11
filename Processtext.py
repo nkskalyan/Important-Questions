@@ -5,6 +5,17 @@ Processes the text converted form of each pdf, converting each of them into a li
 
 portionPath = "Papers/Text/aieee-syllabus-2012.pdf.txt"
 
+def WriteDictToFile(fileDict):
+	for fileName,content in fileDict.iteritems():
+		file = open(fileName, "w")
+		if type(content)==list:
+			file.write("\n".join(content))
+		else:
+			file.write(content)
+
+
+
+
 def getPortionList(portionStrList):
 	for portionStr in portionStrList:
 		pass
@@ -12,17 +23,20 @@ def getPortionList(portionStrList):
 
 def findPortion():
 	string = open(portionPath,"r").read()
-	list1 = re.split("MATHEMATICS",string)
-	list2 = re.split("PHYSICS",list1[1])
-	math = list2[0]
-	list3 = re.split("CHEMISTRY",list2[1])
-	physics = list2[0]
-	chemistry = list2[1].split("SYLLABUS")[0]
-	portions=[]
-	portions.append(math)
-	portions.append(physics)
-	portions.append(chemistry)
-	print math+"\n"+physics+"\n"+chemistry
+	unformattedList = re.split("MATHEMATICS",string)
+	#Remove unwanted stuff before Math
+	unformattedList = re.split("PHYSICS",unformattedList[1])
+	#First part of remaining is math
+	math = unformattedList[0]
+	unformattedList = re.split("CHEMISTRY",unformattedList[1])
+	physics = unformattedList[0]
+	chemistry = unformattedList[1].split("SYLLABUS")[0]
+	portions={}
+	portions["math"]=math
+	portions["physics"]=physics
+	portions["chemistry"]=chemistry
+	WriteDictToFile(portions)
+	#print math+"\n"+physics+"\n"+chemistry
 
 if __name__=="__main__":
 	findPortion()
