@@ -4,7 +4,7 @@ from PyPDF2 import PdfFileReader
 
 
 IN_PATH_P = "Papers/Pdf/Portions"
-IN_PATH_Q = "Papers/Pdf/Questions"
+IN_PATH_Q = "Papers/Pdf/Questions/First_Page"
 OUT_PATH = "Papers/Text"
 count=0
 def writeFile(text,fileName):
@@ -15,7 +15,10 @@ def writeFile(text,fileName):
     a=open(filename,"w")
     if text:    
         a.write(text.encode("UTF-8"))  
-    a.close()
+    else:
+	print fileName+"  Failed"
+
+	a.close()
 
 
 
@@ -51,4 +54,4 @@ def ReadPDF(path):
 
 if __name__ == '__main__':
 	ReadPDF(IN_PATH_P)
-	#ReadPDF(IN_PATH_Q)
+	ReadPDF(IN_PATH_Q)
